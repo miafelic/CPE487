@@ -1,1 +1,1 @@
-# CPE487
+# CPE487 - Digital System Design
