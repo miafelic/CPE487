@@ -1,0 +1,29 @@
+#Two-input AND gate: 
+
+entity AND2 is
+     port (in1, in2: in std_logic;
+     out1: out std_logic);
+end AND2;
+ 
+architecture behavioral_2 of AND2 is
+begin
+     out1 <= in1 and in2;
+end behavioral_2;
+
+
+
+#Two-input XNOR gate:
+
+entity XNOR2 is
+     port (A, B: in std_logic;
+     Z: out std_logic);
+end XNOR2;
+ 
+architecture behavioral_xnor of XNOR2 is
+     -- signal declaration (of internal signals X, Y)
+     signal X, Y: std_logic;
+begin
+           X <= A and B;
+           Y <= (not A) and (not B);
+           Z <= X or Y;
+End behavioral_xnor;
