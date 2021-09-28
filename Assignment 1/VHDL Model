@@ -26,4 +26,4 @@ begin
            X <= A and B;
            Y <= (not A) and (not B);
            Z <= X or Y;
-End behavioral_xnor;
+End behavioral_xnor; 
