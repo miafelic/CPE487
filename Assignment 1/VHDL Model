@@ -27,3 +27,5 @@ begin
            Y <= (not A) and (not B);
            Z <= X or Y;
 End behavioral_xnor; 
+
+#Works Cited: “VHDL Tutorial.” VHDL Primer, https://www.seas.upenn.edu/~ese171/vhdl/vhdl_primer.html.
