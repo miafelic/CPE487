@@ -1,3 +1,4 @@
+--cite https://www.seas.upenn.edu/~ese171/vhdl/vhdl_primer.html.
 entity AND2 is
      port (in1, in2: in std_logic;
      out1: out std_logic);
