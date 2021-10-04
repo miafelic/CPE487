@@ -8,9 +8,9 @@ use WORK.anu.all;
 architecture OP_TB_ARCH of ODD_PARITY_TB is
   
 component Parity_Generator1
-  port (input_stream : in input;
-    clk : in std_logic;
-    parity : out bit );
+    port (input_stream : in input;
+            clk : in std_logic;
+            parity : out bit );
 end component;
   
 signal input_stream : input;
@@ -18,11 +18,11 @@ signal clk :std_logic;
 signal parity :bit ;
 begin
 U1: Parity_Generator1
-  port map(
-      input_stream,
-  clk,
-      parity => parity
-      );
+    port map(
+            input_stream,
+        clk,
+            parity => parity
+            );
   
 input1 : process (clk)
   
