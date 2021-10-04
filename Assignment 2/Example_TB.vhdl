@@ -1,49 +1,46 @@
--- cite: https://www.fpgatutorial.com/how-to-write-a-basic-testbench-using-vhdl/
+-- cite: http://www.csun.edu/edaasic/roosta/VHDL_Examples.pdf
+entity ODD_PARITY_TB is
+end;
 library ieee;
 use ieee.std_logic_1164.all;
-
-entity example_tb is
-end entity example_tb;
+use WORK.anu.all
   
-architecture test of example_tb is
-  signal clock  : std_logic := '0';
-  signal reset  : std_logic := '1';
-
-  signal and_in : std_logic_vector(1 down 0) := (others => '0');
-  alias in_a is and_in(0);
-  signal in_b   : std_logic;
-  signal out_q  : std_logic;
-
+architecture OP_TB_ARCH of ODD_PARITY_TB is
+  
+component Parity_Generator1
+  port (input_stream : in input;
+    clk : in std_logic;
+    parity : out bit );
+end component;
+  
+signal input_stream : input;
+signal clk :std_logic;
+signal parity :bit ;
 begin
+U1: Parity_Generator1
+  port map(
+      input_stream,
+  clk,
+      parity => parity
+      );
   
-  -- Reset and clock
-clock <= not clock after 1 ns;
-reset <= '1', '0' after 5 ns;
-  -- Instantiate the design under test
-  dut: entity work.example_design(rtl)
-    port map (
-      a => in_a,
-      b => in_b,
-      q => out_q
-    );
-  -- Generate the test stimulus
-  stimulus:
-  process begin
-    -- Wait for the Reset to be released before
-    wait until (reset = '0');
-    
-    -- Generate each of in turn, waiting 2 clock periods between
-    -- each iteration to allow for propagation times
-    and_in <= "00";
-    wait for 2 ns;
-    and_in <= "01";
-    wait for 2 ns;
-    and_in <= "10";
-    wait for 2 ns;
-    and_in <= "11";
-
-    -- Testing complete
-    wait;
-  end process stimulus;
-end architecture example_tb;
+input1 : process (clk)
+  
+begin
+    if clk <= 'U' then clk <= '0' after 1 ns;
+    else clk <= not clk after 1 ns;
+    end if;
+end process;
+      
+input2: process (input_stream)
+begin
+    input_stream <= "10100110" after 1 ns,
+                        "01111100" after 2 ns;
+end process;
+end OP_TB_ARCH;
+  
+configuration cfg_op of ODD_PARITY_TB is
+for OP_TB_ARCH
+end for;
+end cfg_op;
 
