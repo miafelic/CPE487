@@ -3,7 +3,7 @@ entity ODD_PARITY_TB is
 end;
 library ieee;
 use ieee.std_logic_1164.all;
-use WORK.anu.all
+use WORK.anu.all;
   
 architecture OP_TB_ARCH of ODD_PARITY_TB is
   
