@@ -1,46 +1,24 @@
--- cite: http://www.csun.edu/edaasic/roosta/VHDL_Examples.pdf
-entity ODD_PARITY_TB is
-end;
+-- cite: https://vhdlguide.readthedocs.io/en/latest/vhdl/testbench.html
 library ieee;
 use ieee.std_logic_1164.all;
-use WORK.anu.all;
-  
-architecture OP_TB_ARCH of ODD_PARITY_TB is
-  
-component Parity_Generator1
-    port (input_stream : in input;
-            clk : in std_logic;
-            parity : out bit );
-end component;
-  
-signal input_stream : input;
-signal clk :std_logic;
-signal parity :bit ;
+
+
+entity half_adder_simple_tb is
+end half_adder_simple_tb;
+
+architecture tb of half_adder_simple_tb is
+    signal a, b : std_logic;  -- inputs 
+    signal sum, carry : std_logic;  -- outputs
 begin
-U1: Parity_Generator1
-    port map(
-            input_stream,
-        clk,
-            parity => parity
-            );
-  
-input1 : process (clk)
-  
-begin
-    if clk <= 'U' then clk <= '0' after 1 ns;
-    else clk <= not clk after 1 ns;
-    end if;
-end process;
-      
-input2: process (input_stream)
-begin
-    input_stream <= "10100110" after 1 ns,
-                        "01111100" after 2 ns;
-end process;
-end OP_TB_ARCH;
-  
-configuration cfg_op of ODD_PARITY_TB is
-for OP_TB_ARCH
-end for;
-end cfg_op;
+    -- connecting testbench signals with half_adder.vhd
+    UUT : entity work.half_adder port map (a => a, b => b, sum => sum, carry => carry);
+
+    -- inputs
+    -- 00 at 0 ns
+    -- 01 at 20 ns, as b is 0 at 20 ns and a is changed to 1 at 20 ns
+    -- 10 at 40 ns
+    -- 11 at 60 ns
+    a <= '0', '1' after 20 ns, '0' after 40 ns, '1' after 60 ns;
+    b <= '0', '1' after 40 ns;        
+end tb ;
 
