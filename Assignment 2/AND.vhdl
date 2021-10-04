@@ -1,4 +1,7 @@
 --cite https://www.seas.upenn.edu/~ese171/vhdl/vhdl_primer.html.
+library ieee;
+use ieee.std_logic_1164.all;
+
 entity AND2 is
      port (in1, in2: in std_logic;
      out1: out std_logic);
