@@ -28,7 +28,7 @@ constant color_5 : std_logic_vector(11 downto 0) := "011100110111"; --darkest pu
 constant color_6 : std_logic_vector(11 downto 0) := "110100001101"; --purple for title
 signal reset : std_logic := '0';
 signal reset_fin : std_logic := '0';
-signal difficulty_has_changed : std_logic := '0';
+signal difficulty_has_changed : integer := 2;
 signal paused : std_logic := '0';
 ---------------------------------------------spacceship
 constant spaceship_width_x : integer := 108;
@@ -1958,12 +1958,15 @@ begin
        if(refresh'event and refresh = '1' and paused = '0') then  --recalculate in each refresh
             
             --determine game difficulty
-            if input = x"1E" and difficulty_has_changed = '0' then
-                alien_speed <= alien_speed * 2;
-                difficulty_has_changed <= '1';
-            elsif input = x"16" and difficulty_has_changed = '1' then
-                alien_speed <= alien_speed / 2;
-                difficulty_has_changed <= '0';
+            if input = x"26" and (difficulty_has_changed = 1 or difficulty_has_changed = 2) then  --press 3 for hard mode
+                alien_speed <= 8;
+                difficulty_has_changed <= 3;
+            elsif input = x"1E" and (difficulty_has_changed = 1 or difficulty_has_changed = 3) then --press 2 for normal mode
+                alien_speed <= 4;
+                difficulty_has_changed <= 2;
+            elsif input = x"16" and (difficulty_has_changed = 2 or difficulty_has_changed = 3) then --press 1 for easy mode
+                alien_speed <= 2;
+                difficulty_has_changed <= 1;
             end if;
             
            --game state changes 
