@@ -30,8 +30,7 @@ component VideoMemory
 --        difficulty : in std_logic;
         red, green, blue : out std_logic_vector( 3 downto 0);
         sw : in STD_LOGIC_VECTOR (11 downto 0);
-        input : in STD_LOGIC_VECTOR (7 downto 0);
-        hits : OUT STD_LOGIC_VECTOR (17 DOWNTO 0));
+        input : in STD_LOGIC_VECTOR (7 downto 0));
 end component;
 
 component ps2_keyboard
@@ -67,7 +66,7 @@ signal temp1 : std_logic_vector(7 DOWNTO 0) := "00000000";
 
 begin
     pixel_driver : VGAPixelDriver port map(  clk => clk, red_in => red, blue_in => blue, green_in => green, Hsync => Hsync, Vsync => Vsync, display_o => display, pixel_x => pixel_x, pixel_y => pixel_y, refresh => temp, red => vgaRed, blue => vgaBlue, green => vgaGreen);
-    video_memory : VideoMemory port map( display => display, pixel_x => pixel_x, pixel_y => pixel_y, refresh => temp, red => red, green => green, blue => blue, sw => sw, input => temp1, hits => display1);
+    video_memory : VideoMemory port map( display => display, pixel_x => pixel_x, pixel_y => pixel_y, refresh => temp, red => red, green => green, blue => blue, sw => sw, input => temp1);
     keyboard_driver : ps2_keyboard port map( clk => clk, PS2Clk => PS2Clk, PS2Data => PS2Data, ps2_code => temp1);
 
     led1 : leddec16
