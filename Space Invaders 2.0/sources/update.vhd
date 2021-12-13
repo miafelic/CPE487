@@ -83,16 +83,16 @@ type bitmap_background1 is array ( 0 to 479) of std_logic_vector( 639 downto 0);
 type bitmap_background2 is array ( 0 to 127) of std_logic_vector( 453 downto 0);
 type bitmap_alien_fire is array ( 0 to 13) of std_logic_vector( 6 downto 0);
 type bitmap_spaceship_fire is array ( 0 to 19) of std_logic_vector( 5 downto 0);
-type bitmap_number0 is array (0 to 37) of std_logic_vector( 39 downto 0);
+type bitmap_number0 is array (0 to 38) of std_logic_vector( 39 downto 0);
 type bitmap_number1 is array (0 to 38) of std_logic_vector( 39 downto 0);
---type bitmap_number2 is array (0 to 33) of std_logic_vector( 39 downto 0);
---type bitmap_number3 is array (0 to 38) of std_logic_vector( 39 downto 0);
---type bitmap_number4 is array (0 to 37) of std_logic_vector( 39 downto 0);
---type bitmap_number5 is array (0 to 38) of std_logic_vector( 39 downto 0);
---type bitmap_number6 is array (0 to 33) of std_logic_vector( 39 downto 0);
---type bitmap_number7 is array (0 to 33) of std_logic_vector( 39 downto 0);
---type bitmap_number8 is array (0 to 37) of std_logic_vector( 39 downto 0);
---type bitmap_number9 is array (0 to 38) of std_logic_vector( 39 downto 0);
+type bitmap_number2 is array (0 to 38) of std_logic_vector( 39 downto 0);
+type bitmap_number3 is array (0 to 38) of std_logic_vector( 39 downto 0);
+type bitmap_number4 is array (0 to 38) of std_logic_vector( 39 downto 0);
+type bitmap_number5 is array (0 to 38) of std_logic_vector( 39 downto 0);
+type bitmap_number6 is array (0 to 38) of std_logic_vector( 39 downto 0);
+type bitmap_number7 is array (0 to 38) of std_logic_vector( 39 downto 0);
+type bitmap_number8 is array (0 to 38) of std_logic_vector( 39 downto 0);
+type bitmap_number9 is array (0 to 38) of std_logic_vector( 39 downto 0);
 type bitmap_score is array (0 to 12) of std_logic_vector(39 downto 0); 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1633,12 +1633,6 @@ constant score3 : bitmap_number3 := ( ("0000000000000000000000000000000000000000
 --constant score6 : bitmap_number6 := ( ("0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
 --"0000000111111111111111111111111100000000",
 --"0000000111111111111111111111111100000000",
 --"0000000111111111111111111111111100000000",
@@ -1673,12 +1667,6 @@ constant score3 : bitmap_number3 := ( ("0000000000000000000000000000000000000000
 --"0000000000000000000000000000000000000000"));
          
 --constant score7 : bitmap_number7 := ( ("0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000",
 --"0000000111111111111111111111111100000000",
@@ -1752,8 +1740,6 @@ constant score3 : bitmap_number3 := ( ("0000000000000000000000000000000000000000
 --"0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
---"0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000"));
          
 --constant score9 : bitmap_number9 := ( ("0000000000000000000000000000000000000000",
@@ -1788,7 +1774,6 @@ constant score3 : bitmap_number3 := ( ("0000000000000000000000000000000000000000
 --"0000000111111111111111111111111100000000",
 --"0000000111111111111111111111111100000000",
 --"0000000111111111111111111111111100000000",
---"0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000",
 --"0000000000000000000000000000000000000000",
