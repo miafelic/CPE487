@@ -9,8 +9,8 @@ entity VideoMemory is
          pixel_x, pixel_y : in integer;
          red, green, blue : out std_logic_vector( 3 downto 0);
          sw : in STD_LOGIC_VECTOR (11 downto 0);
-         input : in STD_LOGIC_VECTOR (7 downto 0);
-         hits: OUT STD_LOGIC_VECTOR (17 DOWNTO 0)); -- count the number of successful hits
+         input : in STD_LOGIC_VECTOR (7 downto 0));
+--         hits: OUT STD_LOGIC_VECTOR (17 DOWNTO 0)); -- count the number of successful hits
 end VideoMemory;
 
 architecture Behavioral of VideoMemory is
@@ -31,6 +31,7 @@ signal reset_fin : std_logic := '0';
 signal difficulty_has_changed : integer := 2;
 signal paused : std_logic := '0';
 signal counter : std_logic := '0';
+signal hits : integer := 0;
 ---------------------------------------------spaceship
 constant spaceship_width_x : integer := 108;
 constant spaceship_width_y : integer := 67;
@@ -93,10 +94,12 @@ type bitmap_number6 is array (0 to 38) of std_logic_vector( 39 downto 0);
 type bitmap_number7 is array (0 to 38) of std_logic_vector( 39 downto 0);
 type bitmap_number8 is array (0 to 38) of std_logic_vector( 39 downto 0);
 type bitmap_number9 is array (0 to 38) of std_logic_vector( 39 downto 0);
-type bitmap_score is array (0 to 12) of std_logic_vector(39 downto 0); 
+type bitmap_score is array (0 to 13) of std_logic_vector(39 downto 0);
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
-constant lost_screen : bitmap_background2 := ( ("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111100000001111111100000000000001111111111111111000000000001111111100000001111111100000000000000000000000000000000000000011111111000000000000000000000000000011111111111111110000000000000001111111111111111000000000001111111111111111111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+constant lost_screen : bitmap_background2 := ( (
+"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111100000001111111100000000000001111111111111111000000000001111111100000001111111100000000000000000000000000000000000000011111111000000000000000000000000000011111111111111110000000000000001111111111111111000000000001111111111111111111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
 "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111100000001111111100000000000001111111111111111000000000001111111100000001111111100000000000000000000000000000000000000011111111000000000000000000000000000011111111111111110000000000000001111111111111111000000000001111111111111111111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
 "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111100000001111111100000000000001111111111111111000000000001111111100000001111111100000000000000000000000000000000000000011111111000000000000000000000000000011111111111111110000000000000001111111111111111000000000001111111111111111111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
 "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111100000001111111100000000000011111111111111111000000000001111111100000001111111100000000000000000000000000000000000000011111111000000000000000000000000000111111111111111110000000000000011111111111111111000000000001111111111111111111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -1389,7 +1392,7 @@ signal alien_prop : alien_properties := (
 ("110","110","110","110","110","110",
  "100","100","100","100","100","100",
  "010","010","010","010","010","010"));
-
+ 
 constant score0 : bitmap_number0 := ( ("0000000000000000000000000000000000000000",
 "0000000000000000000000000000000000000000",
 "0000000000000000000000000000000000000000",
@@ -1789,7 +1792,6 @@ constant score9 : bitmap_number9 := ( ("0000000000000000000000000000000000000000
 "0000000000000000000000000000000000000000",
 "0000000000000000000000000000000000000000",
 "0000000000000000000000000000000000000000"));
- 
 
 constant scoreword : bitmap_score := ( ("0000000000000000000000000000000000000000",
 "0011110000111100011110001111000111100000",
@@ -1805,8 +1807,6 @@ constant scoreword : bitmap_score := ( ("000000000000000000000000000000000000000
 "0001110000111000001100000000000000000000",
 "0000000000000000000000000000000000000000",
 "0000000000000000000000000000000000000000"));
-
-
  
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1843,6 +1843,7 @@ begin
             
             --reach_end
             if last_alive >= 1 and reset = '0' then
+                hits <= last_alive;
             
                 if ( alien_location_y + ((last_alive / 6)-1) * (alien_spacing_y + alien_width_y) + alien_width_y >= spaceship_location_y )then
                     alien_reached_end <= '1';
@@ -1895,6 +1896,7 @@ begin
                 (pixel_y < alien_location_y + (A / 6) * (alien_spacing_y + alien_width_y ) + alien_width_y) and 
                 (alien_location_y + (A / 6) * (alien_spacing_y + alien_width_y ) <= pixel_y) and (alien_prop(A)(2 downto 1) /= "00") then
                 temp_alien <= alien_prop(A);
+                
                 if A / 6 = 0 then
                     if ( alien_type1(pixel_y - (alien_location_y + (A / 6) * (alien_spacing_y + alien_width_y )))(pixel_x - (alien_location_x + (A mod 6) * (alien_spacing_x + alien_width_x)) - 1 ) = '1' ) then
                     --decide color
@@ -1910,10 +1912,7 @@ begin
                          red <= color_1( 11 downto 8);
                          green <= color_1 ( 7 downto 4);
                          blue <= color_1 ( 3 downto 0);
-    --                    else
-    --                       red <= background_col(11 downto 8);
-    --                       green <= background_col(7 downto 4);
-    --                       blue <= background_col(3 downto 0);
+                         
                         end if;    
                      end if;
                 elsif A / 6 = 1 then
@@ -1931,10 +1930,7 @@ begin
                                          red <= color_1( 11 downto 8);
                                          green <= color_1 ( 7 downto 4);
                                          blue <= color_1 ( 3 downto 0);
-                    --                    else
-                    --                       red <= background_col(11 downto 8);
-                    --                       green <= background_col(7 downto 4);
-                    --                       blue <= background_col(3 downto 0);
+                                         
                                         end if;    
                                      end if; 
                 elsif A / 6 = 2 then
@@ -1952,6 +1948,7 @@ begin
                                         red <= color_1( 11 downto 8);
                                         green <= color_1 ( 7 downto 4);
                                         blue <= color_1 ( 3 downto 0);
+                                
                                 end if;    
                         end if;  
                      end if;             
@@ -1962,23 +1959,63 @@ begin
              for A in 17 downto 0 loop
                 if ( alien_prop(A)(2 downto 1) /= "00")then
                 last_alive <= A + 1;
+                hits <= 17 - A;
                 exit;
                 elsif A = 0 then
                 last_alive <= 0;
+               
                 end if;
-                hits <= std_logic_vector(to_unsigned(18 - last_alive, 18 ));
+                
              end loop;
              
              
              elsif game_state = "10" then --lost
                     if pixel_y >= 169 and pixel_y <= 296 and pixel_x <= 546 and pixel_x >= 93 and lost_screen(pixel_y - 169)(453 - pixel_x + 93 ) = '1' then
-                                     red <= color_4(11 downto 8);
-                                     green <= color_4(7 downto 4);
-                                     blue <= color_4(3 downto 0);
-                   elsif  pixel_y >= 312 and pixel_y <= 350 and pixel_x <= 334 and pixel_x >= 295 and score1(pixel_y - 312)(39 - pixel_x + 295 ) = '1' then
-                                     red <= color_4(11 downto 8);
-                                     green <= color_4(7 downto 4);
-                                     blue <= color_4(3 downto 0);
+                         red <= color_4(11 downto 8);
+                         green <= color_4(7 downto 4);
+                         blue <= color_4(3 downto 0);
+                   --scoreboard
+                    if pixel_y >= 337 and pixel_y <= 350 and pixel_x <= 288 and pixel_x >= 275 and scoreword(pixel_y - 337)(39 - pixel_x + 275 ) = '1' then
+                             red <= color_4(11 downto 8);
+                             green <= color_4(7 downto 4);
+                             blue <= color_4(3 downto 0); 
+                        end if;
+                   elsif hits = 0 then
+                     if pixel_y >= 312 and pixel_y <= 350 and pixel_x <= 334 and pixel_x >= 295 and score0(pixel_y - 312)(39 - pixel_x + 295 ) = '1' then
+                             red <= color_4(11 downto 8);
+                             green <= color_4(7 downto 4);
+                             blue <= color_4(3 downto 0); 
+                        end if;
+                    elsif hits = 1 then
+                        if pixel_y >= 312 and pixel_y <= 350 and pixel_x <= 334 and pixel_x >= 295 and score1(pixel_y - 312)(39 - pixel_x + 295 ) = '1' then
+                             red <= color_4(11 downto 8);
+                             green <= color_4(7 downto 4);
+                             blue <= color_4(3 downto 0); 
+                        end if;
+                    elsif hits = 2 then
+                       if pixel_y >= 312 and pixel_y <= 350 and pixel_x <= 334 and pixel_x >= 295 and score2(pixel_y - 312)(39 - pixel_x + 295 ) = '1' then
+                             red <= color_4(11 downto 8);
+                             green <= color_4(7 downto 4);
+                             blue <= color_4(3 downto 0); 
+                        end if;
+                    elsif hits = 3 then
+                     if pixel_y >= 312 and pixel_y <= 350 and pixel_x <= 334 and pixel_x >= 295 and score3(pixel_y - 312)(39 - pixel_x + 295 ) = '1' then
+                             red <= color_4(11 downto 8);
+                             green <= color_4(7 downto 4);
+                             blue <= color_4(3 downto 0); 
+                        end if;
+                    elsif hits = 4 then
+                        if pixel_y >= 312 and pixel_y <= 350 and pixel_x <= 334 and pixel_x >= 295 and score4(pixel_y - 312)(39 - pixel_x + 295 ) = '1' then
+                             red <= color_4(11 downto 8);
+                             green <= color_4(7 downto 4);
+                             blue <= color_4(3 downto 0); 
+                        end if;
+                    elsif hits = 5 then
+                       if pixel_y >= 312 and pixel_y <= 350 and pixel_x <= 334 and pixel_x >= 295 and score5(pixel_y - 312)(39 - pixel_x + 295 ) = '1' then
+                             red <= color_4(11 downto 8);
+                             green <= color_4(7 downto 4);
+                             blue <= color_4(3 downto 0); 
+                        end if;
                    elsif background_1(pixel_y)(max_x - pixel_x) = '1' then
                        red <= color_0(11 downto 8);
                        green <= color_0(7 downto 4);
@@ -1987,7 +2024,8 @@ begin
                       red <= sw(11 downto 8);
                      green <= sw(7 downto 4);
                      blue <= sw(3 downto 0);
-                   end if;
+                   end if;     
+                    
              
              elsif game_state = "11" then --won
              
