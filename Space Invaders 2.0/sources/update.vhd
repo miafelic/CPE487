@@ -1975,6 +1975,10 @@ begin
                                      red <= color_4(11 downto 8);
                                      green <= color_4(7 downto 4);
                                      blue <= color_4(3 downto 0);
+                   elsif  pixel_y >= 312 and pixel_y <= 350 and pixel_x <= 334 and pixel_x >= 295 and score1(pixel_y - 312)(39 - pixel_x + 295 ) = '1' then
+                                     red <= color_4(11 downto 8);
+                                     green <= color_4(7 downto 4);
+                                     blue <= color_4(3 downto 0);
                    elsif background_1(pixel_y)(max_x - pixel_x) = '1' then
                        red <= color_0(11 downto 8);
                        green <= color_0(7 downto 4);
@@ -1983,13 +1987,6 @@ begin
                       red <= sw(11 downto 8);
                      green <= sw(7 downto 4);
                      blue <= sw(3 downto 0);
-                   end if;
-                
-                --score       
-                    if pixel_y >= 60 and pixel_y <= 100 and pixel_x <= 222 and pixel_x >= 260 and score1(pixel_y - 60)(39 - pixel_x + 260 ) = '1' then
-                                     red <= color_4(11 downto 8);
-                                     green <= color_4(7 downto 4);
-                                     blue <= color_4(3 downto 0);
                    end if;
              
              elsif game_state = "11" then --won
