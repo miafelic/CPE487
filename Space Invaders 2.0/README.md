@@ -1,7 +1,7 @@
 # Space Invaders 2.0 
 A game where you can test your skills at destroying aliens!
 
-## Website: https://sites.google.com/stevens.edu/dsd-final/home
+## [Website:] (https://sites.google.com/stevens.edu/dsd-final/home)
 
 ## How to Run:
 ## Step 1: Create a new RTL project in Vivado Quick Start
